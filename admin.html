@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KK Corner — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<meta name="robots" content="noindex">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">KK Corner<span class="dot">.</span></a>
+    <nav><ul><li><a href="index.html">Back to site</a></li></ul></nav>
+    <div></div>
+  </header>
+
+  <div class="admin-wrap">
+    <span class="hero-eyebrow">admin only</span>
+    <h1 style="font-family:var(--serif); font-size:2rem; margin:6px 0 30px;">Add a product</h1>
+
+    <div class="admin-card">
+      <h3>Connection settings</h3>
+      <p style="font-size:0.85rem; opacity:0.7; margin-bottom:16px;">
+        This connects the admin form to your GitHub repo so products save straight into <code>products.json</code>.
+        Your token is stored only in this browser (never uploaded anywhere else) — enter it once.
+      </p>
+      <div class="field-row">
+        <div class="field">
+          <label for="owner">GitHub username</label>
+          <input id="owner" placeholder="kkcorner">
+        </div>
+        <div class="field">
+          <label for="repo">Repository name</label>
+          <input id="repo" placeholder="Kkcorner-">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="branch">Branch</label>
+          <input id="branch" placeholder="main" value="main">
+        </div>
+        <div class="field">
+          <label for="token">GitHub access token</label>
+          <input id="token" type="password" placeholder="ghp_...">
+        </div>
+      </div>
+      <button class="btn-ghost" id="saveSettings" type="button">Save connection</button>
+      <span id="settingsMsg" style="font-size:0.82rem; margin-left:10px; opacity:0.7;"></span>
+    </div>
+
+    <div class="admin-card">
+      <h3>Product details</h3>
+      <div id="formMsg"></div>
+      <form id="productForm">
+        <div class="field">
+          <label for="name">Product name</label>
+          <input id="name" required placeholder="Pearl Drop Earrings">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="price">Price ($)</label>
+            <input id="price" type="number" step="0.01" min="0" required placeholder="18">
+          </div>
+          <div class="field">
+            <label for="wasPrice">Was price (optional)</label>
+            <input id="wasPrice" type="number" step="0.01" min="0" placeholder="leave blank if none">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category">
+              <option>Earrings</option>
+              <option>Necklaces</option>
+              <option>Hair Clips</option>
+              <option>Rings</option>
+              <option>Bags</option>
+              <option>Scrunchies</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tag">Badge (optional)</label>
+            <select id="tag">
+              <option value="">None</option>
+              <option value="new">New</option>
+              <option value="bestseller">Bestseller</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="image">Image filename</label>
+          <input id="image" placeholder="e.g. images/earring-648.jpg (leave blank to use an emoji instead)">
+        </div>
+        <div class="field">
+          <label for="emoji">Fallback emoji</label>
+          <input id="emoji" placeholder="🦋" value="✨">
+        </div>
+        <div class="field">
+          <label for="description">Description</label>
+          <textarea id="description" placeholder="A short, friendly description of the product."></textarea>
+        </div>
+        <button class="btn-primary" type="submit" style="border:none;">Add product</button>
+      </form>
+    </div>
+
+    <div class="admin-card">
+      <h3>Current products</h3>
+      <div id="productList"><p style="opacity:0.6; font-size:0.9rem;">Save your connection settings above to load products.</p></div>
+    </div>
+  </div>
+
+  <script>
+    const SETTINGS_KEY = 'kkcorner_admin_settings';
+
+    function getSettings(){
+      try{ return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}; }
+      catch(e){ return {}; }
+    }
+    function saveSettings(s){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); }
+
+    function b64EncodeUnicode(str){
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+    function b64DecodeUnicode(str){
+      return decodeURIComponent(escape(atob(str)));
+    }
+
+    function apiBase(){
+      const s = getSettings();
+      return `https://api.github.com/repos/${s.owner}/${s.repo}/contents/products.json`;
+    }
+
+    async function ghGetProducts(){
+      const s = getSettings();
+      const res = await fetch(`${apiBase()}?ref=${encodeURIComponent(s.branch || 'main')}&_=${Date.now()}`, {
+        headers: s.token ? { Authorization: `token ${s.token}` } : {}
+      });
+      if(!res.ok) throw new Error(`Couldn't read products.json (${res.status}). Check your username, repo name, branch, and token.`);
+      const data = await res.json();
+      const products = JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g, '')));
+      return { products, sha: data.sha };
+    }
+
+    async function ghPutProducts(products, sha, message){
+      const s = getSettings();
+      if(!s.token) throw new Error('Add your GitHub token above first — writing needs it.');
+      const res = await fetch(apiBase(), {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${s.token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: message,
+          content: b64EncodeUnicode(JSON.stringify(products, null, 2)),
+          sha: sha,
+          branch: s.branch || 'main'
+        })
+      });
+      if(!res.ok){
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `GitHub rejected the save (${res.status}).`);
+      }
+      return res.json();
+    }
+
+    function slugify(name){
+      return name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function showMsg(el, text, ok){
+      el.innerHTML = `<div class="admin-msg ${ok ? 'ok' : 'err'}">${text}</div>`;
+    }
+
+    document.getElementById('saveSettings').addEventListener('click', () => {
+      const s = {
+        owner: document.getElementById('owner').value.trim(),
+        repo: document.getElementById('repo').value.trim(),
+        branch: document.getElementById('branch').value.trim() || 'main',
+        token: document.getElementById('token').value.trim()
+      };
+      saveSettings(s);
+      document.getElementById('settingsMsg').textContent = 'Saved in this browser ✓';
+      loadProductList();
+    });
+
+    function loadSettingsIntoForm(){
+      const s = getSettings();
+      if(s.owner) document.getElementById('owner').value = s.owner;
+      if(s.repo) document.getElementById('repo').value = s.repo;
+      if(s.branch) document.getElementById('branch').value = s.branch;
+      if(s.token) document.getElementById('token').value = s.token;
+    }
+
+    async function loadProductList(){
+      const listEl = document.getElementById('productList');
+      const s = getSettings();
+      if(!s.owner || !s.repo){
+        listEl.innerHTML = '<p style="opacity:0.6; font-size:0.9rem;">Save your connection settings above to load products.</p>';
+        return;
+      }
+      listEl.innerHTML = '<p style="opacity:0.6; font-size:0.9rem;">Loading…</p>';
+      try{
+        const { products } = await ghGetProducts();
+        if(!products.length){
+          listEl.innerHTML = '<p style="opacity:0.6; font-size:0.9rem;">No products yet.</p>';
+          return;
+        }
+        listEl.innerHTML = products.map(p => `
+          <div class="admin-list-item">
+            <span>${p.name} — $${p.price}</span>
+            <button class="del" type="button" data-id="${p.id}">Delete</button>
+          </div>
+        `).join('');
+        listEl.querySelectorAll('.del').forEach(btn => {
+          btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+        });
+      } catch(e){
+        listEl.innerHTML = `<p style="color:var(--raspberry); font-size:0.85rem;">${e.message}</p>`;
+      }
+    }
+
+    async function deleteProduct(id){
+      if(!confirm('Remove this product?')) return;
+      try{
+        const { products, sha } = await ghGetProducts();
+        const next = products.filter(p => p.id !== id);
+        await ghPutProducts(next, sha, `Remove product: ${id}`);
+        loadProductList();
+      } catch(e){
+        alert(e.message);
+      }
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msgEl = document.getElementById('formMsg');
+      const name = document.getElementById('name').value.trim();
+      const price = parseFloat(document.getElementById('price').value);
+      const wasPriceRaw = document.getElementById('wasPrice').value;
+      const newProduct = {
+        id: slugify(name) + '-' + Date.now().toString().slice(-5),
+        name: name,
+        price: price,
+        wasPrice: wasPriceRaw ? parseFloat(wasPriceRaw) : null,
+        category: document.getElementById('category').value,
+        tag: document.getElementById('tag').value,
+        image: document.getElementById('image').value.trim(),
+        emoji: document.getElementById('emoji').value.trim() || '✨',
+        description: document.getElementById('description').value.trim()
+      };
+
+      msgEl.innerHTML = '';
+      try{
+        const { products, sha } = await ghGetProducts();
+        products.push(newProduct);
+        await ghPutProducts(products, sha, `Add product: ${name}`);
+        showMsg(msgEl, `"${name}" was added ✓`, true);
+        document.getElementById('productForm').reset();
+        document.getElementById('emoji').value = '✨';
+        loadProductList();
+      } catch(err){
+        showMsg(msgEl, err.message, false);
+      }
+    });
+
+    loadSettingsIntoForm();
+    loadProductList();
+  </script>
+</body>
+</html>

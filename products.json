@@ -1,0 +1,90 @@
+[
+  {
+    "id": "pearl-drop-earrings",
+    "name": "Pearl Drop Earrings",
+    "price": 18,
+    "wasPrice": null,
+    "category": "Earrings",
+    "tag": "new",
+    "image": "",
+    "emoji": "🦋",
+    "description": "Dainty freshwater-style pearl drops on a lightweight gold-tone hook. Easy everyday earrings that go from class to dinner without a second thought."
+  },
+  {
+    "id": "velvet-bow-hair-clip",
+    "name": "Velvet Bow Hair Clip",
+    "price": 12,
+    "wasPrice": null,
+    "category": "Hair Clips",
+    "tag": "",
+    "image": "",
+    "emoji": "🎀",
+    "description": "A soft velvet bow on a strong-grip claw clip. Holds a half-up style all day without slipping out."
+  },
+  {
+    "id": "rose-quartz-bracelet",
+    "name": "Rose Quartz Bracelet",
+    "price": 22,
+    "wasPrice": 28,
+    "category": "Necklaces",
+    "tag": "bestseller",
+    "image": "",
+    "emoji": "📿",
+    "description": "Genuine rose quartz beads on stretch cord, finished with a tiny gold spacer. Stacks beautifully with your other bracelets."
+  },
+  {
+    "id": "mini-quilted-sling-bag",
+    "name": "Mini Quilted Sling Bag",
+    "price": 34,
+    "wasPrice": null,
+    "category": "Bags",
+    "tag": "",
+    "image": "",
+    "emoji": "👜",
+    "description": "A quilted mini bag with an adjustable chain strap — big enough for your phone, card case, and lip balm."
+  },
+  {
+    "id": "butterfly-hair-pins",
+    "name": "Butterfly Hair Pins (Set of 6)",
+    "price": 15,
+    "wasPrice": null,
+    "category": "Hair Clips",
+    "tag": "",
+    "image": "",
+    "emoji": "🦋",
+    "description": "Six mixed-size butterfly pins for pulling back face-framing pieces or dressing up a plain ponytail."
+  },
+  {
+    "id": "layered-heart-necklace",
+    "name": "Layered Heart Necklace",
+    "price": 20,
+    "wasPrice": null,
+    "category": "Necklaces",
+    "tag": "new",
+    "image": "",
+    "emoji": "💗",
+    "description": "Two dainty chains layered together, one finished with a small heart charm. Wear alone or stack with your favorites."
+  },
+  {
+    "id": "enamel-stacking-rings",
+    "name": "Enamel Stacking Rings (Set of 3)",
+    "price": 16,
+    "wasPrice": null,
+    "category": "Rings",
+    "tag": "",
+    "image": "",
+    "emoji": "💍",
+    "description": "Three thin enamel bands designed to be worn together or split across fingers. Adjustable to fit most sizes."
+  },
+  {
+    "id": "satin-scrunchie-set",
+    "name": "Satin Scrunchie Set",
+    "price": 10,
+    "wasPrice": null,
+    "category": "Scrunchies",
+    "tag": "",
+    "image": "",
+    "emoji": "🧷",
+    "description": "A set of soft satin scrunchies gentle enough to sleep in, sized to hold thick or thin hair without creasing."
+  }
+]

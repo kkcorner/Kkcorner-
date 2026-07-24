@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KK Corner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">KK Corner<span class="dot">.</span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html#shop">Shop</a></li>
+        <li><a href="index.html#story">Our Story</a></li>
+        <li><a href="index.html#reviews">Reviews</a></li>
+      </ul>
+    </nav>
+    <div class="head-icons">
+      <button aria-label="Search">🔍</button>
+      <button aria-label="Wishlist">♡</button>
+      <button aria-label="Bag">👜 <span class="bag-count">2</span></button>
+    </div>
+  </header>
+
+  <div style="height:20px;"></div>
+
+  <div class="breadcrumb"><a href="index.html">Shop</a> &nbsp;/&nbsp; <span id="crumbName">Product</span></div>
+
+  <section class="product-detail" id="productDetail">
+    <p style="padding:0 5vw;">Loading…</p>
+  </section>
+
+  <footer>
+    <div>
+      <div class="logo">KK Corner<span class="dot">.</span></div>
+      <p>Accessories and everyday essentials for women, picked one charm at a time. Based online, shipped everywhere.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="index.html#shop">All products</a></li>
+        <li><a href="#">Gift cards</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Contact us</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">Pinterest</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="foot-bottom">© 2026 KK Corner. Made with ♡ for the girls who accessorize everything.</div>
+
+  <script>
+    function money(n){ return '$' + Number(n).toFixed(0); }
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    fetch('products.json?_=' + Date.now())
+      .then(r => r.json())
+      .then(products => {
+        const p = products.find(x => x.id === id);
+        const wrap = document.getElementById('productDetail');
+        if(!p){
+          wrap.innerHTML = '<p style="padding:0 5vw;">Sorry, we couldn\'t find that product. <a href="index.html">Back to shop</a></p>';
+          return;
+        }
+        document.title = p.name + ' — KK Corner';
+        document.getElementById('crumbName').textContent = p.name;
+
+        const bg = p.gradient || 'linear-gradient(135deg,#F8E1E8,#E8A9BB)';
+        const media = p.image
+          ? `<img src="${p.image}" alt="${p.name}">`
+          : (p.emoji || '✨');
+        const was = p.wasPrice ? `<span class="was">${money(p.wasPrice)}</span>` : '';
+
+        wrap.innerHTML = `
+          <div class="product-media" style="background:${bg};">${media}</div>
+          <div class="product-info">
+            <span class="kicker">${p.category || ''}</span>
+            <h1>${p.name}</h1>
+            <div class="price">${money(p.price)} ${was}</div>
+            <p class="desc">${p.description || ''}</p>
+            <button class="btn-primary" style="border:none;">Add to bag</button>
+          </div>`;
+      })
+      .catch(() => {
+        document.getElementById('productDetail').innerHTML =
+          '<p style="padding:0 5vw;">Couldn\'t load product data — view this on your live GitHub Pages site rather than a local file.</p>';
+      });
+  </script>
+</body>
+</html>

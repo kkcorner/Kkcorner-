@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KK Corner — Little Details, Big Sparkle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo">KK Corner<span class="dot">.</span></div>
+    <nav>
+      <ul>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+      </ul>
+    </nav>
+    <div class="head-icons">
+      <button aria-label="Search">🔍</button>
+      <button aria-label="Wishlist">♡</button>
+      <button aria-label="Bag">👜 <span class="bag-count">2</span></button>
+      <button class="menu-toggle" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="hero-eyebrow">hey pretty ✨</span>
+      <h1>Little details,<br><em>big</em> sparkle.</h1>
+      <p>Hair clips, earrings, rings and bags picked (and packed with a hair tie inside every order) just for the girls who never leave the house without an accessory to match the mood.</p>
+      <div class="hero-ctas">
+        <a href="#shop" class="btn-primary">Shop the drop</a>
+        <a href="#shop" class="btn-ghost">Browse the shop</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="scallop"></div>
+
+  <section class="shop" id="shop">
+    <div class="shop-top">
+      <div>
+        <span class="kicker">best sellers</span>
+        <h2>Fresh in the corner</h2>
+      </div>
+      <div class="filter-pills">
+        <button class="pill active">All</button>
+        <button class="pill">Earrings</button>
+        <button class="pill">Hair</button>
+        <button class="pill">Bags</button>
+        <button class="pill">Rings</button>
+      </div>
+    </div>
+
+    <div class="grid" id="productGrid">
+      <p style="opacity:0.6;">Loading products…</p>
+    </div>
+
+    <div class="shop-more">
+      <a href="#" class="btn-ghost">View all products</a>
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div>
+      <span class="hero-eyebrow" style="color:#F3D9E3;">from our corner to yours</span>
+      <h2>Started in a bedroom, packed on a kitchen table, loved by thousands of girlies.</h2>
+      <p>KK Corner began as a small box of clips and earrings sold to friends. Every piece is still picked by hand, and every order still gets wrapped like a little gift — because that's what an accessory should feel like.</p>
+      <a href="#shop" class="btn-primary">Meet the collection</a>
+    </div>
+  </section>
+
+  <section class="reviews" id="reviews">
+    <div class="section-head">
+      <span class="kicker">from the girlies</span>
+      <h2>Loved on the daily</h2>
+    </div>
+    <div class="review-row">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>The hair clips are so much sturdier than I expected and they came wrapped so cute I didn't want to open it.</p>
+        <div class="review-name">Amara, 22</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>Ordered the ring set for my sister and she hasn't taken them off since. Great stocking stuffer energy.</p>
+        <div class="review-name">Priya, 19</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>The mini bag fits way more than it looks like it should and the strap is adjustable which nobody else does.</p>
+        <div class="review-name">Sofia, 25</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <span class="kicker">stay in the corner</span>
+    <h2>Get first dibs on new drops</h2>
+    <p>Once a week, no spam — just new arrivals, restocks, and the occasional discount code.</p>
+    <form class="sub-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ♡';">
+      <input type="email" placeholder="you@email.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <footer>
+    <div>
+      <div class="logo">KK Corner<span class="dot">.</span></div>
+      <p>Accessories and everyday essentials for women, picked one charm at a time. Based online, shipped everywhere.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#shop">All products</a></li>
+        <li><a href="#">Gift cards</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Contact us</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">Pinterest</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="foot-bottom">© 2026 KK Corner. Made with ♡ for the girls who accessorize everything.</div>
+
+  <script>
+    let ALL_PRODUCTS = [];
+
+    function money(n){ return '$' + Number(n).toFixed(0); }
+
+    function cardHTML(p){
+      const bg = p.gradient || 'linear-gradient(135deg,#F8E1E8,#E8A9BB)';
+      const img = p.image
+        ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`
+        : (p.emoji || '✨');
+      const tag = p.tag ? `<span class="tag">${p.tag}</span>` : '';
+      const was = p.wasPrice ? `<span class="was">${money(p.wasPrice)}</span>` : '';
+      return `
+        <div class="card">
+          <a href="product.html?id=${encodeURIComponent(p.id)}">
+            <div class="card-media" style="background:${bg};">
+              ${tag}
+              <button class="fav" aria-label="Save" onclick="event.preventDefault()">♡</button>
+              ${img}
+            </div>
+            <h3>${p.name}</h3>
+          </a>
+          <div class="price">${money(p.price)} ${was}</div>
+          <button class="add-btn">Add to bag</button>
+        </div>`;
+    }
+
+    function renderProducts(list){
+      const grid = document.getElementById('productGrid');
+      if(!list.length){
+        grid.innerHTML = '<p style="opacity:0.6;">No products yet — add some from the admin page.</p>';
+        return;
+      }
+      grid.innerHTML = list.map(cardHTML).join('');
+    }
+
+    function setupFilters(){
+      const pills = document.querySelectorAll('.filter-pills .pill');
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          const cat = pill.textContent.trim();
+          if(cat === 'All'){
+            renderProducts(ALL_PRODUCTS);
+          } else {
+            renderProducts(ALL_PRODUCTS.filter(p => (p.category || '').toLowerCase().includes(cat.toLowerCase())));
+          }
+        });
+      });
+    }
+
+    fetch('products.json?_=' + Date.now())
+      .then(r => r.json())
+      .then(data => {
+        ALL_PRODUCTS = data;
+        renderProducts(ALL_PRODUCTS);
+        setupFilters();
+      })
+      .catch(() => {
+        document.getElementById('productGrid').innerHTML =
+          '<p style="opacity:0.6;">Couldn\'t load products.json — this page needs to be viewed on your live GitHub Pages site, not opened as a local file.</p>';
+      });
+  </script>
+</body>
+</html>
