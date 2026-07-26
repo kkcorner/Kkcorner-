@@ -1,16 +1,5 @@
 [
   {
-    "id": "velvet-bow-hair-clip",
-    "name": "Velvet Bow Hair Clip",
-    "price": 12,
-    "wasPrice": null,
-    "category": "Hair Clips",
-    "tag": "",
-    "image": "",
-    "emoji": "🎀",
-    "description": "A soft velvet bow on a strong-grip claw clip. Holds a half-up style all day without slipping out."
-  },
-  {
     "id": "rose-quartz-bracelet",
     "name": "Rose Quartz Bracelet",
     "price": 22,
