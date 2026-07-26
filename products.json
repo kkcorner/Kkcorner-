@@ -1,16 +1,5 @@
 [
   {
-    "id": "pearl-drop-earrings",
-    "name": "Pearl Drop Earrings",
-    "price": 18,
-    "wasPrice": null,
-    "category": "Earrings",
-    "tag": "new",
-    "image": "",
-    "emoji": "🦋",
-    "description": "Dainty freshwater-style pearl drops on a lightweight gold-tone hook. Easy everyday earrings that go from class to dinner without a second thought."
-  },
-  {
     "id": "velvet-bow-hair-clip",
     "name": "Velvet Bow Hair Clip",
     "price": 12,
