@@ -1,16 +1,5 @@
 [
   {
-    "id": "layered-heart-necklace",
-    "name": "Layered Heart Necklace",
-    "price": 20,
-    "wasPrice": null,
-    "category": "Necklaces",
-    "tag": "new",
-    "image": "",
-    "emoji": "💗",
-    "description": "Two dainty chains layered together, one finished with a small heart charm. Wear alone or stack with your favorites."
-  },
-  {
     "id": "enamel-stacking-rings",
     "name": "Enamel Stacking Rings (Set of 3)",
     "price": 16,
