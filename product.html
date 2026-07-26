@@ -88,6 +88,9 @@
           ? `<img src="${p.image}" alt="${p.name}">`
           : (p.emoji || '✨');
         const was = p.wasPrice ? `<span class="was">${money(p.wasPrice)}</span>` : '';
+        const waNumber = '9779816561504';
+        const waText = encodeURIComponent(`Hi! I'm interested in this product: ${p.name} (${money(p.price)}). Could you tell me more about it?`);
+        const waLink = `https://wa.me/${waNumber}?text=${waText}`;
 
         wrap.innerHTML = `
           <div class="product-media" style="background:${bg};">${media}</div>
@@ -96,7 +99,7 @@
             <h1>${p.name}</h1>
             <div class="price">${money(p.price)} ${was}</div>
             <p class="desc">${p.description || ''}</p>
-            <button class="btn-primary" style="border:none;">Add to bag</button>
+            <a href="${waLink}" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block; text-align:center;">Enquire on WhatsApp</a>
           </div>`;
       })
       .catch(() => {
