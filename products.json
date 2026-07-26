@@ -1,16 +1,5 @@
 [
   {
-    "id": "rose-quartz-bracelet",
-    "name": "Rose Quartz Bracelet",
-    "price": 22,
-    "wasPrice": 28,
-    "category": "Necklaces",
-    "tag": "bestseller",
-    "image": "",
-    "emoji": "📿",
-    "description": "Genuine rose quartz beads on stretch cord, finished with a tiny gold spacer. Stacks beautifully with your other bracelets."
-  },
-  {
     "id": "butterfly-hair-pins",
     "name": "Butterfly Hair Pins (Set of 6)",
     "price": 15,
