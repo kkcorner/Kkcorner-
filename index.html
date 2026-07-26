@@ -151,6 +151,9 @@
         : (p.emoji || '✨');
       const tag = p.tag ? `<span class="tag">${p.tag}</span>` : '';
       const was = p.wasPrice ? `<span class="was">${money(p.wasPrice)}</span>` : '';
+      const waNumber = '9779816561504';
+      const waText = encodeURIComponent(`Hi! I'm interested in this product: ${p.name} (${money(p.price)}). Could you tell me more about it?`);
+      const waLink = `https://wa.me/${waNumber}?text=${waText}`;
       return `
         <div class="card">
           <a href="product.html?id=${encodeURIComponent(p.id)}">
@@ -162,7 +165,7 @@
             <h3>${p.name}</h3>
           </a>
           <div class="price">${money(p.price)} ${was}</div>
-          <button class="add-btn">Add to bag</button>
+          <a href="${waLink}" target="_blank" rel="noopener" class="add-btn" style="display:block; text-align:center;">Enquire on WhatsApp</a>
         </div>`;
     }
 
